@@ -1,6 +1,10 @@
 [project]
 name = "retain-data-analysis-app"
 version = "0.1.0"
-description = "Add your description here"
+description = "A Streamlit app for Users to interact with data around Inclusively Retain clients"
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "streamlit==1.45.0",
+ "google-cloud-bigquery==3.31.0",
+ "google-genai==1.14.0",
+]
