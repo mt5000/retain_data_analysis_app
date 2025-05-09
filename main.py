@@ -40,7 +40,7 @@ def get_bigquery_table(
 def get_llm_result(query: str, dataframe: pd.DataFrame):
     df_string = dataframe.to_string()
     ai_response = gemini.models.generate_content(
-        model="gemini-2.5-flash-preview-04-17",
+        model="gemini-2.5-flash",
         contents=[df_string, query],
         config=GenerateContentConfig(tools=[Tool(code_execution=ToolCodeExecution)],
                                      system_instruction=SYSTEM_PROMPT,)
