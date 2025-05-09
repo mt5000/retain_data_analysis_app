@@ -49,9 +49,15 @@ def get_llm_result(query: str, dataframe: pd.DataFrame):
 
 st.markdown("<div class='title'>Retain Data Analyst</div>", unsafe_allow_html=True)
 
-query = st.text_input("What's your question about Retain data?")
 dataframe = get_bigquery_table()
-st.dataframe(dataframe)
-ai_response = get_llm_result(query, dataframe)
-st.write(ai_response)
+query = st.text_input("What's your question about Retain data?")
+if query:
+    ai_response = get_llm_result(query, dataframe)
+    for part in ai_response.candidates[0].content.parts:
+        if part.text is not None:
+            st.write(part.text)
+        if part.executable_code is not None:
+            st.code(part.executable_code.code)
+        if part.code_execution_result is not None:
+            st.write(part.code_execution_result.output)
 
