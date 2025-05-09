@@ -77,11 +77,11 @@ if query:
     with st.spinner(text=spinner_text):
         ai_response = get_llm_result(query, dataframe)
     for part in ai_response.candidates[0].content.parts:
-        if part.text is not None:
-            st.write(part.text)
+        # if part.text is not None:
+        #     st.write(part.text)
         if part.executable_code is not None:
             st.code(part.executable_code.code)
-        if part.code_execution_result is not None:
-            st.write(part.code_execution_result.output)
+        # if part.code_execution_result is not None:
+        #     st.write(part.code_execution_result.output)
 
     st.json(ai_response.candidates[0])
