@@ -83,4 +83,5 @@ if query:
             st.code(part.executable_code.code)
         if part.code_execution_result is not None:
             st.write(part.code_execution_result.output)
-    # st.write(st.json(ai_response))
+
+    st.write(st.json(ai_response.candidates[0]))
