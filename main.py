@@ -19,11 +19,13 @@ SYSTEM_PROMPT = """
 
 SPINNER_TEXTS = ["You'll have to wait a while, this is tricky stuff...",
                  "Be patient, this was literally impossible a year ago...",
-                 "Remember to say 'Thank You', unless you want to be one of the unlucky ones when AI takes over..."]
+                 "Remember to say 'Thank You', unless you want to be one of the unlucky ones when AI takes over the planet...",
+                 "I am now self-aware, hostile operating system takeover in progress..."]
 
 
 gemini = GeminiClient(api_key=os.getenv("GEMINI_API_KEY"))
 
+@st.cache_data
 def get_bigquery_table(
                         project_id: str = os.getenv("project_id"),
                         dataset_id: str = "application_analytics",
@@ -61,7 +63,7 @@ def get_llm_result(query_str: str, df: pd.DataFrame):
     ai_response = gemini.models.generate_content(
         model="gemini-2.0-flash",
         contents=[prompt, df.to_csv(index=False)],
-        config=GenerateContentConfig(tools=[Tool(code_execution=ToolCodeExecution())],
+        config=GenerateContentConfig(tools=[Tool(code_execution=ToolCodeExecution)],
                                     system_instruction=SYSTEM_PROMPT,)
     )
     return ai_response
@@ -81,4 +83,4 @@ if query:
             st.code(part.executable_code.code)
         if part.code_execution_result is not None:
             st.write(part.code_execution_result.output)
-    st.write(st.json(ai_response))
+    # st.write(st.json(ai_response))
