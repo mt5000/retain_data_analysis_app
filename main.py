@@ -1,4 +1,5 @@
 import os
+import random
 import streamlit as st
 import pandas as pd
 from google.genai import Client as GeminiClient
@@ -15,6 +16,11 @@ SYSTEM_PROMPT = """
     graph. If the data in the dataframe does not answer the query, simply state 
     'I can't find any data to answer that query'.
     """
+
+SPINNER_TEXTS = ["You'll have to wait a while, this is tricky stuff...",
+                 "Be patient, this was literally impossible a year ago...",
+                 "Remember to say 'Thank You', unless you want to be one of the unlucky ones when AI takes over..."]
+
 
 gemini = GeminiClient(api_key=os.getenv("GEMINI_API_KEY"))
 
@@ -65,7 +71,8 @@ st.markdown("<div class='title'>Retain Data Analyst</div>", unsafe_allow_html=Tr
 dataframe = get_bigquery_table()
 query = st.text_input("What's your question about Retain data?")
 if query:
-    with st.spinner(text="You'll have to wait a while, this is tricky stuff..."):
+    spinner_text = random.choice(SPINNER_TEXTS)
+    with st.spinner(text=spinner_text):
         ai_response = get_llm_result(query, dataframe)
     for part in ai_response.candidates[0].content.parts:
         if part.text is not None:
