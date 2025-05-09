@@ -13,7 +13,7 @@ SYSTEM_PROMPT = """
     metadata, plus a User query regarding data in the dataframe. Your task is to answer 
     the user's query using data transformations, explain your reasoning, and, where 
     appropriate, execute code to either show a dataframe using Pandas or create a chart or 
-    graph. If the data in the dataframe does not answer the query, simply state 
+    graph using Matplotlib. If the data in the dataframe does not answer the query, simply state 
     'I can't find any data to answer that query'.
     """
 
