@@ -19,7 +19,7 @@ SYSTEM_PROMPT = """
 gemini = GeminiClient(api_key=os.getenv("GEMINI_API_KEY"))
 
 def get_bigquery_table(
-                        project_id: str = st.secrets['project_id'],
+                        project_id: str = os.getenv("project_id"),
                         dataset_id: str = "application_analytics",
                         table_id: str = "retain_for_ai_analysis",
                        ) -> pd.DataFrame | None:
@@ -51,6 +51,7 @@ st.markdown("<div class='title'>Retain Data Analyst</div>", unsafe_allow_html=Tr
 
 query = st.text_input("What's your question about Retain data?")
 dataframe = get_bigquery_table()
+st.dataframe(dataframe)
 ai_response = get_llm_result(query, dataframe)
 st.write(ai_response)
 
