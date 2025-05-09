@@ -1,4 +1,4 @@
-
+import os
 import streamlit as st
 import pandas as pd
 from google.genai import Client as GeminiClient
@@ -16,7 +16,7 @@ SYSTEM_PROMPT = """
     'I can't find any data to answer that query'
     """
 
-gemini = GeminiClient(api_key=st.secrets['GEMINI_API_KEY'])
+gemini = GeminiClient(api_key=os.getenv("GEMINI_API_KEY"))
 
 def get_bigquery_table(
                         project_id: str = st.secrets['project_id'],
