@@ -13,7 +13,8 @@ SYSTEM_PROMPT = """
     the user's query using data transformations, explain your reasoning, and, where 
     appropriate, execute code to either show a dataframe using Pandas or create a chart or 
     graph. If the data in the dataframe does not answer the query, simply state 
-    'I can't find any data to answer that query'
+    'I can't find any data to answer that query'. FILTER THE DATAFRAME FIRST before 
+    executing the query.
     """
 
 gemini = GeminiClient(api_key=os.getenv("GEMINI_API_KEY"))
@@ -37,13 +38,26 @@ def get_bigquery_table(
         return None
 
 
-def get_llm_result(query: str, dataframe: pd.DataFrame):
-    df_string = dataframe.to_string()
+def get_llm_result(query_str: str, df: pd.DataFrame):
+
+    sample_df = df.head(10)
+    df_summary = {
+        "columns": list(df.columns),
+        "dtypes": dict(df.dtypes.astype(str)),
+        "n_rows": len(df),
+    }
+    sample_string = sample_df.to_csv(index=False)
+    prompt = (
+        f"This is the metadata of the DataFrame: {df_summary}\n"
+        f"Here are the first 10 rows:\n{sample_string}\n"
+        f"User query: {query_str}"
+    )
+
     ai_response = gemini.models.generate_content(
         model="gemini-2.0-flash",
-        contents=[df_string, query],
+        contents=[prompt],
         config=GenerateContentConfig(tools=[Tool(code_execution=ToolCodeExecution)],
-                                     system_instruction=SYSTEM_PROMPT,)
+                                    system_instruction=SYSTEM_PROMPT,)
     )
     return ai_response
 
@@ -60,4 +74,3 @@ if query:
             st.code(part.executable_code.code)
         if part.code_execution_result is not None:
             st.write(part.code_execution_result.output)
-
