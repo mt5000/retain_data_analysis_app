@@ -16,7 +16,7 @@ SYSTEM_PROMPT = """
     'I can't find any data to answer that query'
     """
 
-gemini = GeminiClient()
+gemini = GeminiClient(api_key=st.secrets['GEMINI_API_KEY'])
 
 def get_bigquery_table(
                         project_id: str = "healthy-dragon-300820",
