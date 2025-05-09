@@ -47,16 +47,13 @@ def get_bigquery_table(
 
 def get_llm_result(query_str: str, df: pd.DataFrame):
 
-    sample_df = df.head(10)
     df_summary = {
         "columns": list(df.columns),
         "dtypes": dict(df.dtypes.astype(str)),
         "n_rows": len(df),
     }
-    sample_string = sample_df.to_csv(index=False)
     prompt = (
         f"This is the metadata of the DataFrame: {df_summary}\n"
-        f"Here are the first 10 rows:\n{sample_string}\n"
         f"User query: {query_str}"
     )
 
