@@ -19,7 +19,7 @@ SYSTEM_PROMPT = """
 gemini = GeminiClient(api_key=st.secrets['GEMINI_API_KEY'])
 
 def get_bigquery_table(
-                        project_id: str = "healthy-dragon-300820",
+                        project_id: str = st.secrets['project_id'],
                         dataset_id: str = "application_analytics",
                         table_id: str = "retain_for_ai_analysis",
                        ) -> pd.DataFrame | None:
