@@ -47,6 +47,7 @@ htmlcov/
 .xml
 .iml
 .idea/
+.idea
 nosetests.xml
 coverage.xml
 *.cover
