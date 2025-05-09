@@ -13,8 +13,7 @@ SYSTEM_PROMPT = """
     the user's query using data transformations, explain your reasoning, and, where 
     appropriate, execute code to either show a dataframe using Pandas or create a chart or 
     graph. If the data in the dataframe does not answer the query, simply state 
-    'I can't find any data to answer that query'. FILTER THE DATAFRAME FIRST before 
-    executing the query.
+    'I can't find any data to answer that query'.
     """
 
 gemini = GeminiClient(api_key=os.getenv("GEMINI_API_KEY"))
@@ -66,7 +65,8 @@ st.markdown("<div class='title'>Retain Data Analyst</div>", unsafe_allow_html=Tr
 dataframe = get_bigquery_table()
 query = st.text_input("What's your question about Retain data?")
 if query:
-    ai_response = get_llm_result(query, dataframe)
+    with st.spinner(text="You'll have to wait a while, this is tricky stuff..."):
+        ai_response = get_llm_result(query, dataframe)
     for part in ai_response.candidates[0].content.parts:
         if part.text is not None:
             st.write(part.text)
