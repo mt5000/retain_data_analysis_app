@@ -55,7 +55,7 @@ def get_llm_result(query_str: str, df: pd.DataFrame):
     ai_response = gemini.models.generate_content(
         model="gemini-2.0-flash",
         contents=[prompt, df.to_csv(index=False)],
-        config=GenerateContentConfig(tools=[Tool(code_execution=ToolCodeExecution)],
+        config=GenerateContentConfig(tools=[Tool(code_execution=ToolCodeExecution())],
                                     system_instruction=SYSTEM_PROMPT,)
     )
     return ai_response
