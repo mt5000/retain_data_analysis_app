@@ -3,7 +3,7 @@ import random
 import streamlit as st
 import pandas as pd
 from google.genai import Client as GeminiClient
-from google.genai.types import GenerateContentConfig, Tool, ToolCodeExecution
+from google.genai.types import GenerateContentConfig
 from google.cloud import bigquery
 from google.oauth2 import service_account
 
@@ -18,8 +18,9 @@ SYSTEM_PROMPT = """
     """
 
 SPINNER_TEXTS = ["You'll have to wait a while, this is tricky stuff...",
-                 "Be patient, this was literally impossible a year ago...",
-                 "Remember to say 'Thank You', unless you want to be one of the unlucky ones when AI takes over the planet...",
+                 "Patience is bitter, but fruit is sweet...",
+                 "A watched pot doesn't boil...",
+                 "Remember to say 'Thank You' to your AI, unless you want to be one of the unlucky ones when it takes over the planet...",
                  "I am now self-aware, hostile operating system takeover in progress..."]
 
 
@@ -60,9 +61,8 @@ def get_llm_result(query_str: str, df: pd.DataFrame):
     ai_response = gemini.models.generate_content(
         model="gemini-2.0-flash",
         contents=[prompt, df.to_csv(index=False)],
-        config=GenerateContentConfig(tools=[Tool(code_execution=ToolCodeExecution)],
-                                    system_instruction=SYSTEM_PROMPT,)
-    )
+        config=GenerateContentConfig(system_instruction=SYSTEM_PROMPT,)
+            )
     return ai_response
 
 st.markdown("<div class='title'>Retain Data Analyst</div>", unsafe_allow_html=True)
