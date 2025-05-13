@@ -89,4 +89,4 @@ if query and query_type:
         ai_response = get_llm_result(query, query_type, dataframe)
     # for part in ai_response.candidates[0].content.parts:
 
-    st.json(ai_response)
+    st.json(ai_response.parsed)
