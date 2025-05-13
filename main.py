@@ -85,7 +85,7 @@ query_type = st.selectbox("What kind of data do you need?", QUERY_TYPES)
 query = st.text_input("What's your question about Retain data?")
 if query and query_type:
     spinner_text = random.choice(SPINNER_TEXTS)
-    with st.balloons(text=spinner_text):
+    with st.balloons():
         ai_response = get_llm_result(query, query_type, dataframe)
     # for part in ai_response.candidates[0].content.parts:
 
