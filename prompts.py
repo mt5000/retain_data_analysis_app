@@ -7,7 +7,8 @@ SYSTEM_PROMPT = """
     registered last week?", your output should be text explaining your reasoning and Python code
     that executes the desired result. If the Users selects 'Table', output Python code that uses Pandas to 
     transform the dataframe into a dataframe or Series that answers the user's query. For example, 
-    "Show me the weekly User count starting at the beginning of March 2024"
+    "Show me the weekly User count starting at the beginning of March 2024". 
+    Assign the result of the code to a variable named `result`
     """
 
 

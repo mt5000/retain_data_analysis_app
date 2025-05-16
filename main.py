@@ -83,8 +83,18 @@ if query and query_type:
     model_response = ai_response.parsed
     st.write(model_response)
     st.divider()
-    executed_code = exec(model_response.code)
+
+    # Prepare the execution environment
+    exec_globals = {"df": df}
+    exec_locals = {}
+
+    # Execute the generated code in the controlled context
+    exec(model_response.code, exec_globals, exec_locals)
+
+    # Assume the model's code defines a variable called 'result'
+    executed_result = exec_locals.get("result")
+
     if query_type == "Number":
-        st.write(executed_code)
+        st.write(executed_result)
     else:
-        st.dataframe(executed_code)
+        st.dataframe(executed_result)
