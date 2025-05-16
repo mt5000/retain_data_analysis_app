@@ -12,7 +12,7 @@ from prompts import SYSTEM_PROMPT, COLUMN_EXPLANATION
 
 class Output(BaseModel):
     text: str = Field(title="Reasoning", description="Model's reasoning for arriving at the Python code")
-    code: str = Field(title="Python Code", description="Python code to be executed")
+    code: str = Field(title="Python Code", description="Python code to be executed with output assigned to variable 'result'")
 
 
 
