@@ -82,6 +82,7 @@ if query and query_type:
         ai_response = get_llm_result(query, query_type, df)
     model_response = ai_response.parsed
     st.write(model_response.text)
+    st.write(model_response.code)
     st.divider()
 
     # Prepare the execution environment
