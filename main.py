@@ -73,13 +73,13 @@ def get_llm_result(query_str: str, data_type: str, df: pd.DataFrame):
 
 st.markdown("<div class='title'>Retain Data Analyst</div>", unsafe_allow_html=True)
 
-dataframe = get_bigquery_table()
+df = get_bigquery_table()
 query_type = st.selectbox("What kind of data do you need?", QUERY_TYPES)
 query = st.text_input("What's your question about Retain data?")
 if query and query_type:
     spinner_text = random.choice(SPINNER_TEXTS)
     with st.spinner(spinner_text):
-        ai_response = get_llm_result(query, query_type, dataframe)
+        ai_response = get_llm_result(query, query_type, df)
     model_response = ai_response.parsed
     st.write(model_response)
     st.divider()
