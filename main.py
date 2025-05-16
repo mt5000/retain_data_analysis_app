@@ -53,11 +53,12 @@ def get_llm_result(query_str: str, data_type: str, df: pd.DataFrame):
         "columns": list(df.columns),
         "dtypes": dict(df.dtypes.astype(str)),
         "n_rows": len(df),
-        "sample rows": df.sample(30)
+        "sample rows": df.sample(25)
     }
     prompt = (
         f"This is the metadata of the DataFrame: {df_summary}\n\n"
         f"Explanation of columns:\n{COLUMN_EXPLANATION}\n\n"
+        f"Query Type: {data_type}\n"
         f"User query: {query_str}"
     )
 
@@ -79,6 +80,11 @@ if query and query_type:
     spinner_text = random.choice(SPINNER_TEXTS)
     with st.spinner(spinner_text):
         ai_response = get_llm_result(query, query_type, dataframe)
-    # for part in ai_response.candidates[0].content.parts:
-
-    st.json(ai_response.parsed)
+    model_response = ai_response.parsed
+    st.write(model_response)
+    st.divider()
+    executed_code = exec(model_response.code)
+    if query_type == "Number":
+        st.write(executed_code)
+    else:
+        st.dataframe(executed_code)
