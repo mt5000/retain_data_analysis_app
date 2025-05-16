@@ -81,7 +81,7 @@ if query and query_type:
     with st.spinner(spinner_text):
         ai_response = get_llm_result(query, query_type, df)
     model_response = ai_response.parsed
-    st.write(model_response)
+    st.write(model_response.text)
     st.divider()
 
     # Prepare the execution environment
@@ -97,4 +97,4 @@ if query and query_type:
     if query_type == "Number":
         st.write(executed_result)
     else:
-        st.dataframe(executed_result)
+        st.bar_chart(executed_result)
