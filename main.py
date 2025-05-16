@@ -7,7 +7,7 @@ from google.genai.types import GenerateContentConfig
 from google.cloud import bigquery
 from google.oauth2 import service_account
 from pydantic import BaseModel, Field
-from prompts import SYSTEM_PROMPT, COLUMN_EXPLANATION
+from prompts import SYSTEM_PROMPT, COLUMN_EXPLANATION, CHART_FUNCTION_SIGNATURES
 
 
 class Output(BaseModel):
@@ -64,7 +64,7 @@ def get_llm_result(query_str: str, data_type: str, df: pd.DataFrame):
 
     ai_response = gemini.models.generate_content(
         model="gemini-2.0-flash",
-        contents=[prompt,],
+        contents=[prompt, CHART_FUNCTION_SIGNATURES],
         config=GenerateContentConfig(system_instruction=SYSTEM_PROMPT,
                                      response_mime_type="application/json",
                                      response_schema=Output,)
