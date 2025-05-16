@@ -97,4 +97,4 @@ if query and query_type:
     if query_type == "Number":
         st.write(executed_result)
     else:
-        st.bar_chart(executed_result)
+        st.bar_chart(executed_result, x_label=executed_result.columns[0], y_label=executed_result.columns[1])
