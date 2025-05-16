@@ -94,6 +94,7 @@ if query and query_type:
 
     # Assume the model's code defines a variable called 'result'
     executed_result = exec_locals.get("result")
+    st.write(type(executed_result))
 
     if query_type == "Number":
         st.write(executed_result)
