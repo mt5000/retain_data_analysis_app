@@ -7,6 +7,7 @@ from google.genai.types import GenerateContentConfig
 from google.cloud import bigquery
 from google.oauth2 import service_account
 from pydantic import BaseModel, Field
+from prompts import SYSTEM_PROMPT, COLUMN_EXPLANATION
 
 
 class Output(BaseModel):
@@ -14,17 +15,6 @@ class Output(BaseModel):
     code: str = Field(title="Python Code", description="Python code to be executed")
 
 
-SYSTEM_PROMPT = """
-    You are a Data Analyst helper, you will be provided with a dataframe as well as 
-    metadata, plus a User query regarding data in the dataframe. Your task is to answer 
-    the user's query explain your reasoning. If the data in the dataframe does not answer the query, simply state 
-    'I can't find any data to answer that query'. You will be given one of the following options: 
-    Number or Table. If the user is looking for one number as the result (for example: "How many Users 
-    registered last week?", your output should be text explaining your reasoning and Python code
-    that executes the desired result. If the Users selects 'Table', output Python code that uses Pandas to 
-    transform the dataframe into a dataframe or Series that answers the user's query. For example, 
-    "Show me the weekly User count starting at the beginning of March 2024"
-    """
 
 SPINNER_TEXTS = ["You'll have to wait a while, this is tricky stuff...",
                  "Patience is bitter, but fruit is sweet...",
@@ -63,15 +53,17 @@ def get_llm_result(query_str: str, data_type: str, df: pd.DataFrame):
         "columns": list(df.columns),
         "dtypes": dict(df.dtypes.astype(str)),
         "n_rows": len(df),
+        "sample rows": df.sample(30)
     }
     prompt = (
-        f"This is the metadata of the DataFrame: {df_summary}\n"
+        f"This is the metadata of the DataFrame: {df_summary}\n\n"
+        f"Explanation of columns:\n{COLUMN_EXPLANATION}\n\n"
         f"User query: {query_str}"
     )
 
     ai_response = gemini.models.generate_content(
         model="gemini-2.0-flash",
-        contents=[prompt, df.to_csv(index=False)],
+        contents=[prompt,],
         config=GenerateContentConfig(system_instruction=SYSTEM_PROMPT,
                                      response_mime_type="application/json",
                                      response_schema=Output,)
@@ -85,7 +77,7 @@ query_type = st.selectbox("What kind of data do you need?", QUERY_TYPES)
 query = st.text_input("What's your question about Retain data?")
 if query and query_type:
     spinner_text = random.choice(SPINNER_TEXTS)
-    with st.balloons():
+    with st.spinner(spinner_text):
         ai_response = get_llm_result(query, query_type, dataframe)
     # for part in ai_response.candidates[0].content.parts:
 
