@@ -86,7 +86,7 @@ if query and query_type:
     model_response.code
 
     # Prepare the execution environment
-    exec_globals = {"df": df}
+    exec_globals = {"df": df, "st": st}
     exec_locals = {}
 
     # Execute the generated code in the controlled context
