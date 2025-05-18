@@ -94,4 +94,5 @@ if query and query_type:
     # Assume the model's code defines a variable called 'result'
     executed_result = exec_locals.get("result")
 
+    model_response.code
     executed_result
