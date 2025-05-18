@@ -83,6 +83,7 @@ if query and query_type:
     model_response = ai_response.parsed
     st.write(model_response.text)
     st.divider()
+    model_response.code
 
     # Prepare the execution environment
     exec_globals = {"df": df}
@@ -94,5 +95,4 @@ if query and query_type:
     # Assume the model's code defines a variable called 'result'
     executed_result = exec_locals.get("result")
 
-    model_response.code
-    executed_result
+
