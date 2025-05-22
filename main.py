@@ -83,7 +83,7 @@ if query and query_type:
     model_response = ai_response.parsed
     st.write(model_response.text)
     st.divider()
-    st.code(model_response.code)
+    # st.code(model_response.code)
 
     # Prepare the execution environment
     exec_globals = {"df": df, "st": st, "pd": pd}
