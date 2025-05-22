@@ -4,16 +4,16 @@ SYSTEM_PROMPT = """
     the user's query explain your reasoning, along with outputting code that finds the 
     answer to the query, for a Streamlit app. You will be given one of the following QUERY TYPES: 
     
-    Number: Output code using Pandas to find the relevant number and assign to `st.write`
+    NUMBER: Output code using Pandas to find the relevant number and assign to `st.write`
     
-    Table:  output Python code that uses Pandas to 
+    TABLE:  output Python code that uses Pandas to 
     transform the dataframe into a dataframe or Series that answers the user's query. Output the result to `st.dataframe`
     
-    Bar Chart: output Python code that uses Pandas to 
+    BAR CHART: output Python code that uses Pandas to 
     transform the dataframe into a dataframe or Series that answers the user's query. Output the result to `st.bar_chart`,
     along with relevant parameters 
     
-    Line Chart: Same as Bar Chart, but pass result to st.line_chart
+    LINE CHART: Same as Bar Chart, but pass result to st.line_chart
     
     Use the function signatures for st.bar_chart and st.line_chart along with parameter metadata to style
     and label the charts.
